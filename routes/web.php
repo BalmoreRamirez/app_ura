@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MedicamentoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,10 @@ Route::get('/consulta', [App\Http\Controllers\ConsultaController::class, 'index'
 Route::get('/paciente', [App\Http\Controllers\PacienteController::class, 'index'])->name('paciente');
 Route::get('/medicamento', [App\Http\Controllers\MedicamentoController::class, 'index'])->name('medicamento');
 
+
+Route::get('/getmedicamento', [App\Http\Controllers\MedicamentoController::class, 'getMedicamento'])->name('getmedicamento');
+
+Route::post('myurl', [App\Http\Controllers\PacienteController::class, 'listPaciente']);
 
 
 

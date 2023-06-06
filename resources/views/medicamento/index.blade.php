@@ -10,6 +10,7 @@
     <div class="card">
         <div class="card-header">
             <a class="btn btn-primary" href="#">Crear medicamento</a>
+            <a class="btn btn-primary " href="#">Subir Excel</a>
         </div>
 
         <div class="card-body">
@@ -23,7 +24,7 @@
                 </tr>
                 </thead>
 
-                <tbody>
+                <tbody id="medicamento">
 
                 </tbody>
             </table>
@@ -37,6 +38,25 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('getmedicamento') }}",
+                success: function (response) {
+                    response.forEach(element => {
+                        let tr = `<tr>
+                                    <td>${element.nombre}</td>
+                                    <td>${element.categoria}</td>
+                                    <td>${element.descripcion}</td>
+                                    <td>${element.stock}</td>
+                                  </tr>`;
+                        $("#medicamento").append(tr);
+                    });
+
+                },
+            });
+        });
+    </script>
 @stop
 

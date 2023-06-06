@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Medicamento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MedicamentoController extends Controller
 {
@@ -14,7 +15,8 @@ class MedicamentoController extends Controller
      */
     public function index()
     {
-        return view('medicamento.index');
+        $data = DB::table('medicamentos')->get()->toArray();
+        return view('medicamento.index', compact('data'));
     }
 
     /**
@@ -30,7 +32,7 @@ class MedicamentoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +43,7 @@ class MedicamentoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Medicamento  $medicamento
+     * @param \App\Models\Medicamento $medicamento
      * @return \Illuminate\Http\Response
      */
     public function show(Medicamento $medicamento)
@@ -52,7 +54,7 @@ class MedicamentoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Medicamento  $medicamento
+     * @param \App\Models\Medicamento $medicamento
      * @return \Illuminate\Http\Response
      */
     public function edit(Medicamento $medicamento)
@@ -63,8 +65,8 @@ class MedicamentoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Medicamento  $medicamento
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Medicamento $medicamento
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Medicamento $medicamento)
@@ -75,11 +77,17 @@ class MedicamentoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Medicamento  $medicamento
+     * @param \App\Models\Medicamento $medicamento
      * @return \Illuminate\Http\Response
      */
     public function destroy(Medicamento $medicamento)
     {
         //
+    }
+
+
+    public function getMedicamento(){
+        $data = DB::table('medicamentos')->get()->toArray();
+        return $data;
     }
 }

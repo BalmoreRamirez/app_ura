@@ -1,80 +1,63 @@
-
-@extends('adminlte::page')
-
-@section('title', 'Paciente')
-
-@section('content_header')
-    <h1>Paciente</h1>
-@stop
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            <form method="POST" action="" enctype="multipart/form-data">
-                @csrf
-                <div class="form-group">
-                    <label for="">Título</label>
-                    <input type="text" class="form-control" id="title" name='title'
-                           placeholder="Ingrese el nombre del artículo" minlength="5" maxlength="255"
-                           value="">
-
-                </div>
-
-                <div class="form-group">
-                    <label for="">Slug</label>
-                    <input type="text" class="form-control" id="slug" name='slug'
-                           placeholder="Slug del artículo" readonly
-                           value="">
-                </div>
-
-                <div class="form-group">
-                    <label>Introducción</label>
-                    <input type="text" class="form-control" id="introduction" name='introduction'
-                           placeholder="Ingrese la introducción del artículo" minlength="5" maxlength="255"
-                           value="">
-                </div>
-
-                <div class="form-group">
-                    <label for="">Subir imagen</label>
-                    <input type="file" class="form-control-file" id="image" name='image'>
-                </div>
-
-                <div class="form-group w-5">
-                    <label for="">Desarrollo del artículo</label>
-                    <textarea class="ckeditor form-control" id="body" name="body">{{ old('body') }}</textarea>
-                </div>
-
-                <label for="">Estado</label>
-                <div class="form-group">
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label" for="">Privado</label>
-                        <input class="form-check-input ml-2" type="radio" name='status'
-                               id="status" value="0" checked>
+    @include('layouts.navbars.auth.topnav', ['title' => 'Paciente'])
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">Paciente</p>
+                            
+                        </div>
                     </div>
-
-                    <div class="form-check form-check-inline">
-                        <label class="form-check-label" for="">Público</label>
-                        <input class="form-check-input ml-2" type="radio" name='status'
-                               id="status" value="1">
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <form role="form" method="POST" action="{{ url('/paciente') }}" >
+                            @csrf                    
+                            <div class="card-body">
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Nombre</label>
+                                            <input class="form-control" type="text" name="nombre">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Apellido</label>
+                                            <input class="form-control" type="text" name="apellido" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Alergico a</label>
+                                            <input class="form-control" type="text" name="alergico_a" >
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Club</label>
+                                            <select class="form-select" aria-label="Default select example" name="club">
+                                                <option>Seleccionar ...</option>
+                                                @foreach ($data as $item)
+                                                <option value="{{$item->id}}">{{$item->nombre}}</option>    
+                                                @endforeach
+                                            
+                                              </select>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm ms-auto">Agregar</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <select class="form-control" name="category_id" id="category_id">
-                        <option value="">Seleccione una categoría</option>
-                    </select>
-                </div>
-
-                <input type="submit" value="Agregar artículo" class="btn btn-primary">
-            </form>
+            </div>
         </div>
+ 
+        @include('layouts.footers.auth.footer')
     </div>
-@stop
-
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-    <script> console.log('Hi!'); </script>
-@stop
+@endsection

@@ -8,8 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class ConsultaMedicamento extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'cantidad',
-        'idMedicamento'
-    ];
 }

@@ -1,50 +1,74 @@
-@extends('adminlte::page')
-
-@section('title', 'Paciente')
-
-@section('content_header')
-    <h1>Paciente</h1>
-@stop
+@extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    <div class="card">
-        <div class="card-header d-flex justify-content-between">
-            <a class="btn btn-primary" href="#">Crear paciente</a>
-            <a class="" href="#"><i class="fas fa-upload"></i></a>
+    @include('layouts.navbars.auth.topnav', ['title' => 'Paciente'])
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">Paciente</p>
+                            <a href="{{url('/paciente/create')}}" class="btn btn-primary btn-sm ms-auto">Agregar</a>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0 text-center">
+                                <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Nombre
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Apellido
+                                    </th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Alergico a
+                                    </th>
+                                        <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Club
+                                    </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Ac
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $item)
+                                    <tr>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{$item->nombre}}</p>                                 
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{$item->apellido}}</p>                         
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{$item->alergico_a}}</p>                                  
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{$item->club}}</p>                                   
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                                               data-toggle="tooltip" data-original-title="Edit user">
+                                                Ac
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="card-body">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Alergico a</th>
-                    <th>club</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                @foreach($data as $item)
-                    <tr>
-                        <td>{{$item->nombre}}</td>
-                        <td>{{$item->apellido}}</td>
-                        <td>{{$item->alergico_a}}</td>
-                        <td>{{$item->club}}</td>
-                    </tr>
-
-                @endforeach
-                </tbody>
-            </table>
-
-        </div>
+ 
+        @include('layouts.footers.auth.footer')
     </div>
-@stop
-
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-    <script> console.log('Hi!'); </script>
-@stop
+@endsection

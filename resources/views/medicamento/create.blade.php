@@ -9,7 +9,7 @@
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
                             <p class="mb-0">Paciente</p>
-                            
+
                         </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
@@ -31,14 +31,14 @@
                                             <input class="form-control" type="text" name="categoria">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Unidad
                                             </label>
                                             <input class="form-control" type="text" name="unidad">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Stock</label>
                                             <input class="form-control" type="number" name="stock">

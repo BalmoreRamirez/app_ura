@@ -40,27 +40,34 @@
                                     @foreach ($data as $item)
                                     <tr>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{$item->nombre}}</p>                                 
+                                            <p class="text-xs font-weight-bold mb-0">{{$item->nombre}}</p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{$item->apellido}}</p>                         
+                                            <p class="text-xs font-weight-bold mb-0">{{$item->apellido}}</p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{$item->alergico_a}}</p>                                  
+                                            <p class="text-xs font-weight-bold mb-0">{{$item->alergico_a}}</p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{$item->club}}</p>                                   
+                                            <p class="text-xs font-weight-bold mb-0">{{$item->club}}</p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                               data-toggle="tooltip" data-original-title="Edit user">
-                                                Ac
+                                            <a href="{{url('/paciente/'.$item->id.'/edit')}}">
+                                                <i class="fas fa-regular fa-edit" style="color: #46ac3e;"></i>
                                             </a>
+
+                                            <form  action="{{url('/paciente/'.$item->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="ml-2">
+                                                    <i class="fas fa-solid fa-minus" style="color: #ef4d25;"></i>
+                                                </button>
+
+                                            </form>
+
                                         </td>
                                     </tr>
                                     @endforeach
-                                
-
                                 </tbody>
                             </table>
                         </div>
@@ -68,7 +75,7 @@
                 </div>
             </div>
         </div>
- 
+
         @include('layouts.footers.auth.footer')
     </div>
 @endsection

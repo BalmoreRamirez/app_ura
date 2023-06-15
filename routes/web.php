@@ -37,6 +37,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/paciente', [PacienteController::class, 'index'])->name('paciente');
 Route::get('/paciente/create', [PacienteController::class, 'create']);
 Route::post('/paciente', [PacienteController::class, 'store']);
+Route::get('/paciente/{paciente}/edit', [PacienteController::class, 'edit']);
+Route::put('/paciente/{paciente}', [PacienteController::class, 'update']);
+Route::delete('/paciente/{paciente}', [PacienteController::class, 'destroy']);
+
 
 // Medicamento
 Route::get('/medicamento', [MedicamentoController::class, 'index'])->name('medicamento');

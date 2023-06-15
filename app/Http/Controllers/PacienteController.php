@@ -21,7 +21,7 @@ class PacienteController extends Controller
     {
         $data = DB::table('pacientes as pa')
             ->join('clubs as clu', 'clu.id', '=', 'pa.idClub')
-            ->select('pa.nombre as nombre', 'pa.apellido as apellido', 'pa.alergico_a as alergico_a', 'clu.nombre as club')
+            ->select('pa.nombre as nombre', 'pa.apellido as apellido', 'pa.alergico_a as alergico_a', 'clu.nombre as club','pa.id')
             ->get();
         return view('paciente.index', compact('data'));
     }
@@ -70,7 +70,8 @@ class PacienteController extends Controller
      */
     public function edit(Paciente $paciente)
     {
-        //
+        $data =  Club::all();
+        return view('paciente.edit',compact('paciente','data'));
     }
 
     /**
@@ -82,7 +83,14 @@ class PacienteController extends Controller
      */
     public function update(Request $request, Paciente $paciente)
     {
-        //
+
+        $paciente->nombre = $request->input('nombre');
+        $paciente->apellido = $request->input('apellido');
+        $paciente->alergico_a = $request->input('alergico_a');
+        $paciente->idClub = $request->input('club');
+        $paciente->save();
+
+        return redirect('paciente');
     }
 
     /**
@@ -93,6 +101,7 @@ class PacienteController extends Controller
      */
     public function destroy(Paciente $paciente)
     {
-        //
+       $paciente->delete();
+        return redirect('paciente');
     }
 }

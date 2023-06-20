@@ -112,14 +112,15 @@
 <script src="{{asset('assets/js/jquery.js')}}"></script>
 <script>
     $(document).ready(function () {
-        var current = 0;
+        let current = 0;
+
         //Agregar fila nueva
         $("#agregar_cuadro").on("click", function (e) {
             e.preventDefault();
 
             current = current + 1;
 
-            var select = "<select class='form-control medicamento' id='select_product_"+current+"'></select>";
+            let select = "<select  class='form-control medicamento' id='select_product_"+current+"'></select>";
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -141,14 +142,14 @@
                             ${select}
                         </td>
                         <td>
-                            <input class="form-control cantidad" type="text" value="">
+                            <input class="form-control cantidad" type="number" value="">
                         </td>
                         <td class="delete_row"><i class="fas fa-solid fa-trash"></i><td>
                     </tr>  `;
             $("#lista_consulta").append(tr);
         });
 
-        // Cargar el select de pacientes
+
         $("#id_club").on("change", function () {
             let selectedOption = $(this).val();
 
@@ -163,14 +164,17 @@
                 },
                 success: function (response) {
                     $("#id_paciente").empty();
-                    $('#id_paciente').append('<option selected>Buscar...</option>')
+                    $('#id_paciente').append('<option selected>Seleciona el paciente...</option>')
                     response.forEach(item => {
                         let tr = `<option value="${item.id}"> ${item.nombre} </option>`;
                         $("#id_paciente").append(tr);
                     });
 
                     if (response.length == 0) {
-                        $('#id_paciente').append('<option selected>No hay datos...</option>')
+                        $('#id_paciente').append('<option selected>No hay datos...</option>');
+                        $('#id_paciente').attr('disabled',true);
+                    }else{
+                        $('#id_paciente').attr('disabled',false);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -217,7 +221,7 @@
                     window.location.href = '/consulta';
                 },
                 error: function(xhr, status, error) {
-                    console.log(xhr.responseText);
+                    console.log(error);
                 }
             });
         });
@@ -229,6 +233,5 @@
         e.preventDefault();
         $(this).closest('tr').remove();
     });
-
 
 </script>

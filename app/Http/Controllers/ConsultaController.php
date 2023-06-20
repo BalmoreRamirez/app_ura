@@ -72,7 +72,7 @@ class ConsultaController extends Controller
             };
         }
 
-        return response()->json(['mensaje' => $array]);
+        return response()->json(['success' => 'Guardado con exito'], ['error' => 'Error al guardar']);
     }
 
     /**
@@ -105,7 +105,7 @@ class ConsultaController extends Controller
 
 
         $username = Auth::user()->username;
-        return view('consulta.edit', compact('username', 'data','consultaData','consulta'));
+        return view('consulta.edit', compact('username', 'data', 'consultaData', 'consulta'));
     }
 
     /**

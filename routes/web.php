@@ -51,7 +51,7 @@ Route::get('listaMedicamentoParaSelect', [MedicamentoController::class, 'listMed
 
 // Consulta
 Route::get('/consulta', [ConsultaController::class, 'index'])->name('consulta');
-Route::get('/consulta/create', [ConsultaController::class, 'create']);
+Route::get('/consulta/create', [ConsultaController::class, 'create'])->name('crearConsulta');
 Route::get('/consulta/{id}', [ConsultaController::class, 'edit']);
 
 // Listar paciente por club

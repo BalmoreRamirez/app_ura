@@ -27,7 +27,7 @@
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Alergico a
                                     </th>
-                                        <th
+                                    <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Club
                                     </th>
@@ -37,7 +37,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $item)
+                                @foreach ($data as $item)
                                     <tr>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0">{{$item->nombre}}</p>
@@ -55,19 +55,12 @@
                                             <a href="{{url('/paciente/'.$item->id.'/edit')}}">
                                                 <i class="fas fa-regular fa-edit" style="color: #46ac3e;"></i>
                                             </a>
-
-                                            <form  action="{{url('/paciente/'.$item->id)}}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="ml-2">
-                                                    <i class="fas fa-solid fa-minus" style="color: #ef4d25;"></i>
-                                                </button>
-
-                                            </form>
-
+                                            <a  class="ml-2 eliminarPaciente" data-item-id="{{$item->id}}">
+                                                <i class="fas fa-solid fa-minus" style="color: #ef4d25;"></i>
+                                            </a>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -79,3 +72,5 @@
         @include('layouts.footers.auth.footer')
     </div>
 @endsection
+<script src="{{asset('assets/js/jquery.js')}}"></script>
+<script src="{{asset('assets/js/accion_crud_paciente.js')}}"></script>

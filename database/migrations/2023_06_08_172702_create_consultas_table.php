@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('consultas', function (Blueprint $table) {
             $table->id();
-            
+
             $table->unsignedBigInteger('idUsuario')->nullable();
             $table->foreign('idUsuario')
                 ->references('id')
@@ -28,6 +28,7 @@ return new class extends Migration
                 ->references('id')
                 ->on('pacientes')
                 ->onDelete('set null');
+            $table->unique('idPaciente');
 
             $table->timestamps();
         });

@@ -147,7 +147,6 @@
                         <td class="delete_row"><i class="fas fa-solid fa-trash"></i><td>
                     </tr>  `;
             $("#lista_consulta").append(tr);
-        });
 
 
         $("#id_club").on("change", function () {

@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <button class="btn btn-primary btn-sm ms-auto" id="agregar_cuadro">Agregar
-                                            cuadro
+                                            consulta
                                         </button>
 
                                     </div>
@@ -110,8 +110,88 @@
 
 
 <script src="{{asset('assets/js/jquery.js')}}"></script>
+
 <script>
     $(document).ready(function () {
+
+        $("#id_paciente").on("change", function () {
+            let selectedOption = $(this).val();
+
+            $.ajax({
+                url: '{{url('/consulta/consultaPorPaciente')}}',
+                type: 'POST',
+                data: {
+                    id: selectedOption,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.length <= 0) {
+                        $("#lista_consulta").empty();
+                        let tr = `<tr>
+                                    <td colspan="4">
+                                        No hay datos
+                                    <td>
+                                </tr>`;
+                        $("#lista_consulta").append(tr);
+                    } else {
+                        $("#lista_consulta").empty();
+                        response.forEach(element => {
+                            let row = `
+                                    <tr>
+                                    <td>${element.cuadroCaso}</td>
+                                    <td>${element.medicamento}</td>
+                                    <td colspan="2">${element.cantidad}</td>
+                                    </tr>
+                                    `;
+                            $("#lista_consulta").append(row);
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                    console.log(xhr.responseText);
+                }
+            });
+
+        });
+
+        $("#id_club").on("change", function () {
+            let selectedOption = $(this).val();
+            $.ajax({
+                url: '{{url('listaPacientePorId')}}',
+                type: 'POST',
+                data: {
+                    id: selectedOption,
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function (response) {
+                    console.log(response)
+                    $("#id_paciente").empty();
+                    $('#id_paciente').append('<option selected>Seleciona el paciente...</option>')
+                    response.forEach(item => {
+                        let tr = `<option value="${item.id}"> ${item.nombre} </option>`;
+                        $("#id_paciente").append(tr);
+                    });
+
+                    if (response.length == 0) {
+                        $('#id_paciente').append('<option selected>No hay datos...</option>');
+                        $('#id_paciente').attr('disabled', true);
+                    } else {
+                        $('#id_paciente').attr('disabled', false);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+        console.log('Cargando  el jquery');
         let current = 0;
 
         //Agregar fila nueva
@@ -120,7 +200,7 @@
 
             current = current + 1;
 
-            let select = "<select  class='form-control medicamento' id='select_product_"+current+"'></select>";
+            let select = "<select  class='form-control medicamento' id='select_product_" + current + "'></select>";
             $.ajax({
                 type: "GET",
                 dataType: 'json',
@@ -129,7 +209,7 @@
                     console.log(response);
                     response.forEach(element => {
                         var row = `<option value="${element.id}" >${element.nombre}</option>`;
-                        $("#select_product_"+current+"").append(row);
+                        $("#select_product_" + current + "").append(row);
                     });
                 },
             });
@@ -149,82 +229,50 @@
             $("#lista_consulta").append(tr);
 
 
-        $("#id_club").on("change", function () {
-            let selectedOption = $(this).val();
+            $('#enviarConsulta').submit(function (e) {
+                e.preventDefault();
+                let formulario = $(this);
+                let info = formulario.serialize();
+                let products = [];
 
-            $.ajax({
-                url: '{{url('listaPacientePorId')}}',
-                type: 'POST',
-                data: {
-                    id: selectedOption,
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function (response) {
-                    $("#id_paciente").empty();
-                    $('#id_paciente').append('<option selected>Seleciona el paciente...</option>')
-                    response.forEach(item => {
-                        let tr = `<option value="${item.id}"> ${item.nombre} </option>`;
-                        $("#id_paciente").append(tr);
-                    });
+                $('tr').each(function () {
+                    let cuadro = $(this).find('.cuadro').val();
+                    let medicamento = $(this).find('.medicamento option:selected').val();
+                    let cantidad = $(this).find('.cantidad').val();
 
-                    if (response.length == 0) {
-                        $('#id_paciente').append('<option selected>No hay datos...</option>');
-                        $('#id_paciente').attr('disabled',true);
-                    }else{
-                        $('#id_paciente').attr('disabled',false);
+                    if (cuadro && medicamento && cantidad) {
+                        let item = {
+                            'cuadro': cuadro,
+                            'medicamento': medicamento,
+                            'cantidad': cantidad
+                        };
+                        products.push(item);
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr.responseText);
-                }
+                });
+                console.log(products);
+                console.log(info);
+                $.ajax({
+                    url: '{{ url('guardarPaciente') }}',
+                    type: 'POST',
+                    data: {
+                        formulario: info,
+                        products: products
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        formulario[0].reset();
+                        window.location.href = '/consulta';
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                    }
+                });
             });
+
         });
-
-        $('#enviarConsulta').submit(function(e) {
-            e.preventDefault();
-            let formulario = $(this);
-            let info = formulario.serialize();
-            let products = [];
-
-            $('tr').each(function() {
-                let cuadro = $(this).find('.cuadro').val();
-                let medicamento = $(this).find('.medicamento option:selected').val();
-                let cantidad = $(this).find('.cantidad').val();
-
-                if (cuadro && medicamento && cantidad) {
-                    let item = {
-                        'cuadro': cuadro,
-                        'medicamento': medicamento,
-                        'cantidad': cantidad
-                    };
-                    products.push(item);
-                }
-            });
-            console.log(products);
-            console.log(info);
-            $.ajax({
-                url: '{{ url('guardarPaciente') }}',
-                type: 'POST',
-                data: {
-                    formulario: info,
-                    products: products
-                },
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    console.log(response);
-                    formulario[0].reset();
-                    window.location.href = '/consulta';
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                }
-            });
-        });
-
     });
 
     // Borra fila

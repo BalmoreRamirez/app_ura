@@ -139,5 +139,17 @@ class ConsultaController extends Controller
         return response()->json($data);
     }
 
+    public function consultaDePaciente(Request $request)
+    {
+        $data = DB::table('consulta_medicamentos as come')
+            ->select('come.cuadroCaso', 'medi.nombre as medicamento', 'come.cantidad')
+            ->join('medicamentos as medi', 'medi.id', '=', 'come.idMedicamento')
+            ->join('consultas as con', 'con.id', '=', 'come.idConsulta')
+            ->where('con.idPaciente', $request->id)
+            ->get();
+        return response()->json($data);
+
+    }
+
 
 }

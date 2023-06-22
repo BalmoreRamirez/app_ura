@@ -50,29 +50,21 @@ class ConsultaController extends Controller
      */
     public function store(Request $request)
     {
-
         $id_user = Auth::user()->id;
-        $paciente = $request->input('formulario');
-        parse_str($paciente, $array);
-
-        $consulta = new Consulta();
+        $cuadroCaso = $request->input('cuadro');
+        $cantidad = $request->input('cantidad');
+        $idMedicamento = $request->input('medicamento');
+        $idPaciente = $request->input('valor');
+        
+        $consulta = new ConsultaMedicamento();
+        $consulta->cuadroCaso = $cuadroCaso;
+        $consulta->cantidad = $cantidad;
         $consulta->idUsuario = $id_user;
-        $consulta->idPaciente = intval($array['paciente']);
+        $consulta->idPaciente = $idPaciente;
+        $consulta->idMedicamento = $idMedicamento;
         $consulta->save();
 
-        $id_consulta = Consulta::latest()->pluck('id')->first();
-        if (isset($request->products)) {
-            foreach ($request->products as $item) {
-                $data = new ConsultaMedicamento();
-                $data->cuadroCaso = $item['cuadro'];
-                $data->cantidad = $item['cantidad'];
-                $data->idConsulta = $id_consulta;
-                $data->idMedicamento = $item['medicamento'];;
-                $data->save();
-            };
-        }
-
-        return response()->json(['success' => 'Guardado con exito'], ['error' => 'Error al guardar']);
+        return response()->json(['success' => 'Guardado con exito']);
     }
 
     /**
@@ -94,7 +86,8 @@ class ConsultaController extends Controller
      */
     public function edit(Consulta $consulta)
     {
-
+ //
+        /*
         $data = ConsultaMedicamento::where('idConsulta', 38)->get();
         $consultaData = DB::table('consultas as con')
             ->join('users as us', 'us.id', '=', 'con.idUsuario')
@@ -105,7 +98,7 @@ class ConsultaController extends Controller
 
 
         $username = Auth::user()->username;
-        return view('consulta.edit', compact('username', 'data', 'consultaData', 'consulta'));
+        return view('consulta.edit', compact('username', 'data', 'consultaData', 'consulta'));*/
     }
 
     /**
@@ -144,8 +137,7 @@ class ConsultaController extends Controller
         $data = DB::table('consulta_medicamentos as come')
             ->select('come.cuadroCaso', 'medi.nombre as medicamento', 'come.cantidad')
             ->join('medicamentos as medi', 'medi.id', '=', 'come.idMedicamento')
-            ->join('consultas as con', 'con.id', '=', 'come.idConsulta')
-            ->where('con.idPaciente', $request->id)
+            ->where('come.idPaciente', $request->id)
             ->get();
         return response()->json($data);
 

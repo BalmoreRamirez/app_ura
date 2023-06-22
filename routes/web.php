@@ -54,16 +54,15 @@ Route::get('/consulta', [ConsultaController::class, 'index'])->name('consulta');
 Route::get('/consulta/create', [ConsultaController::class, 'create'])->name('crearConsulta');
 Route::get('/consulta/{id}', [ConsultaController::class, 'edit']);
 
-Route::post('/consulta/consultaPorPaciente',[ConsultaController::class,'consultaDePaciente']);
-
 // Listar paciente por club
 Route::post('listaPacientePorId', [ConsultaController::class, 'listaPacientePorClub']);
 
 // Guardar paciente
 Route::post('guardarPaciente', [ConsultaController::class, 'store']);
 
+// consultas relacionados al paciente
 
-
+Route::post('/consulta/consultaPorPaciente',[ConsultaController::class, 'consultaDePaciente']);
 
 
 Route::get('/', function () {

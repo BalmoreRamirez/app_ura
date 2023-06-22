@@ -17,11 +17,19 @@ return new class extends Migration
             $table->id();
             $table->string('cuadroCaso');
             $table->integer('cantidad');
-            // relacion Consulta
-            $table->unsignedBigInteger('idConsulta')->nullable();
-            $table->foreign('idConsulta')
+
+            // Rescatista
+            $table->unsignedBigInteger('idUsuario')->nullable();
+            $table->foreign('idUsuario')
                 ->references('id')
-                ->on('consultas')
+                ->on('users')
+                ->onDelete('set null');
+
+            // relacion paciente
+            $table->unsignedBigInteger('idPaciente')->nullable();
+            $table->foreign('idPaciente')
+                ->references('id')
+                ->on('pacientes')
                 ->onDelete('set null');
 
             // relacion Medicamento

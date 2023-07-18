@@ -1,66 +1,89 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Administracion URA
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Descripción
 
-## About Laravel
+Es una aplicacion web que permite a los rescatistas guardar las consultas generadas, y llevar un historial del medicamento que se le asigno a casa paciente y mostrar los reportes respecivos.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requisitos
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP >= 8.0.2
+- guzzlehttp/guzzle ^7.2
+- laravel-frontend-presets/argon ^2.0
+- laravel/framework ^9.19
+- laravel/sanctum ^3.0
+- laravel/tinker ^2.7
+- laravel/ui ^4.2
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Requisitos de desarrollo
 
-## Learning Laravel
+- fakerphp/faker ^1.9.1
+- laravel/pint ^1.0
+- laravel/sail ^1.0.1
+- mockery/mockery ^1.4.4
+- nunomaduro/collision ^6.1
+- phpunit/phpunit ^9.5.10
+- spatie/laravel-ignition ^1.0
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalación
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Clona este repositorio en tu directorio local.
+2. Ejecuta `composer install` para instalar las dependencias.
+3. Crea un archivo `.env` a partir del archivo `.env.example` y configura las variables de entorno necesarias.
+4. Genera una clave de aplicación ejecutando `php artisan key:generate`.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Configuración
 
-## Laravel Sponsors
+- `optimize-autoloader`: true
+- `preferred-install`: "dist"
+- `sort-packages`: true
+- `allow-plugins`: {
+  - "pestphp/pest-plugin": true
+  - }
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Auto-carga
 
-### Premium Partners
+Este paquete utiliza el siguiente esquema de auto-carga:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- App\\: "app/"
+- Database\\Factories\\: "database/factories/"
+- Database\\Seeders\\: "database/seeders/"
 
-## Contributing
+## Auto-carga de desarrollo
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Para las pruebas, se utiliza el siguiente esquema de auto-carga:
 
-## Code of Conduct
+- Tests\\: "tests/"
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Scripts
 
-## Security Vulnerabilities
+- `post-autoload-dump`: [
+  - "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+  - "@php artisan package:discover --ansi"
+  - ]
+- `post-update-cmd`: [
+  - "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+  - ]
+- `post-root-package-install`: [
+  - "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+  - ]
+- `post-create-project-cmd`: [
+  - "@php artisan key:generate --ansi"
+  - ]
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Contribuir
 
-## License
+Si quieres contribuir al desarrollo de Laravel Framework, por favor sigue las siguientes pautas:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Haz un fork del repositorio.
+2. Crea una rama para tu contribución.
+3. Realiza los cambios y mejoras necesarios.
+4. Envía un pull request a la rama principal del repositorio.
+
+## Licencia
+
+Este paquete está bajo la licencia MIT. Consulta el archivo LICENSE para más detalles.
+
+## Contacto
+
+Para cualquier consulta o pregunta, por favor contáctanos a través de [correo electrónico](mailto:camaleoncode@gmail.com) o visita nuestro sitio web en [https://balmoreramirez.netlify.app/](https://balmoreramirez.netlify.app/).
+
